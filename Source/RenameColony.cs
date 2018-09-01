@@ -11,7 +11,7 @@ namespace RenameColony
     {
         public Mod(ModContentPack content) : base(content)
         {
-            HarmonyInstance rchi = HarmonyInstance.Create("neon.rimworld.renamecolony");
+            HarmonyInstance rchi = HarmonyInstance.Create("dusty.rimworld.renamecolony");
             MethodInfo targetMethoderino = AccessTools.Method(typeof(PlaySettings), "DoPlaySettingsGlobalControls");
             HarmonyMethod postFixerino = new HarmonyMethod(typeof(RenameColony).GetMethod("AddWidget"));
             rchi.Patch(targetMethoderino, null, postFixerino);
@@ -31,8 +31,8 @@ namespace RenameColony
                 }
                 if (row.ButtonIcon(ContentFinder<Texture2D>.Get("Rename"), "Rename the Colony!"))
                 {
-                    FactionBase factionBase = (FactionBase)Find.VisibleMap.info.parent;
-                    Find.WindowStack.Add(new Dialog_RenameColony(factionBase));
+                    Settlement settlement = (Settlement)Find.CurrentMap.info.parent;
+                    Find.WindowStack.Add(new Dialog_RenameColony(settlement));
                     #if DEBUG
                     Log.Message("femboy foxes are gay");
                     #endif

@@ -6,20 +6,20 @@ namespace RenameColony
 {
     class Dialog_RenameColony : Dialog_GiveName
     {
-        private FactionBase factionBase;
+        private Settlement settlement;
 
-        public Dialog_RenameColony(FactionBase factionBase)
+        public Dialog_RenameColony(Settlement settlement)
         {
-            this.factionBase = factionBase;
-            if (factionBase.HasMap && factionBase.Map.mapPawns.FreeColonistsSpawnedCount != 0)
+            this.settlement = settlement;
+            if (settlement.HasMap && settlement.Map.mapPawns.FreeColonistsSpawnedCount != 0)
             {
-                Pawn suggestingPawn = factionBase.Map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>();
+                Pawn suggestingPawn = settlement.Map.mapPawns.FreeColonistsSpawned.RandomElement<Pawn>();
             }
             this.curName = Faction.OfPlayer.Name;
             this.nameMessageKey = "RCNamePlayerFactionMessage";
             this.invalidNameMessageKey = "PlayerFactionNameIsInvalid";
             this.useSecondName = true;
-            this.curSecondName = factionBase.Name;
+            this.curSecondName = settlement.Name;
             this.secondNameMessageKey = "RCNamePlayerFactionBaseMessage_NameFactionContinuation";
             this.invalidSecondNameMessageKey = "RCPlayerFactionBaseNameIsInvalid";
             this.gainedNameMessageKey = "RCPlayerFactionAndBaseGainsName";
@@ -28,9 +28,9 @@ namespace RenameColony
         public override void PostOpen()
         {
             base.PostOpen();
-            if (this.factionBase.Map != null)
+            if (this.settlement.Map != null)
             {
-                Current.Game.VisibleMap = this.factionBase.Map;
+                Current.Game.CurrentMap = this.settlement.Map;
             }
         }
 
@@ -41,7 +41,7 @@ namespace RenameColony
 
         protected override bool IsValidSecondName(string s)
         {
-            return NamePlayerFactionBaseDialogUtility.IsValidName(s);
+            return NamePlayerSettlementDialogUtility.IsValidName(s);
         }
 
         protected override void Named(string s)
@@ -51,7 +51,7 @@ namespace RenameColony
 
         protected override void NamedSecond(string s)
         {
-            NamePlayerFactionBaseDialogUtility.Named(this.factionBase, s);
+            NamePlayerSettlementDialogUtility.Named(this.settlement, s);
         }
     }
 }
